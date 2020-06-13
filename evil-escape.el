@@ -197,10 +197,12 @@ with a key sequence."
           (restore-buffer-modified-p modified)
           (cond
            ((and (characterp evt)
-                 (or (and (equal (this-command-keys) (evil-escape--first-key))
+                 (or (and (equal (this-command-keys-vector)
+                                 (evil-escape--first-key))
                           (char-equal evt skey))
                      (and evil-escape-unordered-key-sequence
-                          (equal (this-command-keys) (evil-escape--second-key))
+                          (equal (this-command-keys-vector)
+                                 (evil-escape--second-key))
                           (char-equal evt fkey))))
             (evil-repeat-stop)
             (let ((esc-fun (evil-escape-func)))
@@ -236,9 +238,9 @@ with a key sequence."
        (not (memq evil-state evil-escape-excluded-states))
        (or (not evil-escape-enable-only-for-major-modes)
            (memq major-mode evil-escape-enable-only-for-major-modes))
-       (or (equal (this-command-keys) (evil-escape--first-key))
+       (or (equal (this-command-keys-vector) (evil-escape--first-key))
            (and evil-escape-unordered-key-sequence
-                (equal (this-command-keys) (evil-escape--second-key))))
+                (equal (this-command-keys-vector) (evil-escape--second-key))))
        (not (cl-reduce (lambda (x y) (or x y))
                        (mapcar 'funcall evil-escape-inhibit-functions)
                        :initial-value nil))))
@@ -283,16 +285,14 @@ with a key sequence."
    (t 'evil-normal-state)))
 
 (defun evil-escape--first-key ()
-  "Return the first key string in the key sequence."
-  (let* ((first-key (elt evil-escape-key-sequence 0))
-         (fkeystr (char-to-string first-key)))
-    fkeystr))
+  "Return a vector containing just the first key in the key sequence."
+  (let ((first-key (elt evil-escape-key-sequence 0)))
+    (vector first-key)))
 
 (defun evil-escape--second-key ()
-  "Return the second key string in the key sequence."
-  (let* ((sec-key (elt evil-escape-key-sequence 1))
-         (fkeystr (char-to-string sec-key)))
-    fkeystr))
+  "Return a vector containing just the second key in the key sequence."
+  (let ((second-key (elt evil-escape-key-sequence 1)))
+    (vector second-key)))
 
 (defun evil-escape--insert-func ()
   "Default insert function."
