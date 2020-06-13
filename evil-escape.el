@@ -189,7 +189,7 @@ with a key sequence."
                (inserted (evil-escape--insert))
                (fkey (elt evil-escape-key-sequence 0))
                (skey (elt evil-escape-key-sequence 1))
-               (evt (read-event nil nil evil-escape-delay)))
+               (evt (read-event nil t evil-escape-delay)))
           (when inserted (evil-escape--delete))
           ;; NOTE Add syl20bnr/evil-escape#91: replace `set-buffer-modified-p'
           ;;      with `restore-buffer-modified-p', which doesn't redisplay the
