@@ -315,7 +315,7 @@ with a key sequence."
     ('error nil)))
 
 (defun evil-escape--insert-2 ()
-  "Insert character while taking into account mode specificites."
+  "Insert character while taking into account mode specificities."
   (pcase major-mode
     (`term-mode (call-interactively 'term-send-raw))
     (_ (cond
@@ -333,7 +333,7 @@ with a key sequence."
     (`iedit-insert (evil-escape--delete-func))))
 
 (defun evil-escape--delete-2 ()
-  "Delete character while taking into account mode specifities."
+  "Delete character while taking into account mode specificities."
   (pcase major-mode
     (`term-mode (call-interactively 'term-send-backspace))
     (_ (cond
